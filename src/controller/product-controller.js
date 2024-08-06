@@ -18,7 +18,7 @@ const get = async (req, res) => {
       success: false,
       message: "Not able to get product",
       data: {},
-      err: err,
+      err: err.message,
     });
   }
 };
@@ -38,7 +38,7 @@ const getAll = async (req, res) => {
       success: false,
       message: "Not able to get products",
       data: {},
-      err: err,
+      err: err.message,
     });
   }
 };
