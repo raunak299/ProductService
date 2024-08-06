@@ -12,6 +12,9 @@ module.exports = (sequelize, DataTypes) => {
       this.belongsToMany(models.Wishlist, {
         through: "WishlistProduct",
       });
+      this.belongsToMany(models.Cart, {
+        through: "CartProduct",
+      });
     }
   }
   Product.init(

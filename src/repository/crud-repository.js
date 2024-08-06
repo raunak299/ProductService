@@ -8,6 +8,7 @@ class CrudRepository {
       const instance = await this.model.create(data);
       return instance;
     } catch (err) {
+      console.log(err);
       console.log("something went wrong in crud repository inside create");
       throw err;
     }

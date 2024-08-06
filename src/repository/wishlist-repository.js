@@ -1,4 +1,3 @@
-const { default: axios } = require("axios");
 const { Wishlist, Product } = require("../models/index");
 const CrudRepository = require("./crud-repository");
 
