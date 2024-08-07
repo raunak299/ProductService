@@ -12,6 +12,7 @@ module.exports = {
       userId: {
         type: Sequelize.STRING,
         unique: true,
+        allowNull: false,
       },
       createdAt: {
         allowNull: false,
