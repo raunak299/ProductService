@@ -10,11 +10,14 @@ module.exports = {
      * await queryInterface.createTable('users', { id: Sequelize.INTEGER });
      */
 
-    await queryInterface.addColumn("CartProduct", "quantity", {
-      type: Sequelize.INTEGER,
-      allowNull: false,
-      defaultValue: 1,
-    });
+    const tableInfo = await queryInterface.describeTable("CartProducts");
+    if (!tableInfo.quantity) {
+      await queryInterface.addColumn("CartProducts", "quantity", {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        defaultValue: 1,
+      });
+    }
   },
 
   async down(queryInterface, Sequelize) {

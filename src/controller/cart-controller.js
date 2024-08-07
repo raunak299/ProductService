@@ -24,6 +24,28 @@ const create = async (req, res) => {
   }
 };
 
+const addProductToCart = async (req, res) => {
+  try {
+    const payload = req.body;
+    const response = await cartService.addProductToCart(payload);
+    return res.status(StatusCodes.OK).json({
+      success: true,
+      message: "Successfully added product to cart",
+      data: response,
+      err: {},
+    });
+  } catch (err) {
+    console.log("Something went wrong in cart controller");
+    res.status(StatusCodes.BAD_GATEWAY).json({
+      success: false,
+      message: "Something went wrong .. unable to add product to cart",
+      data: {},
+      err: err.message,
+    });
+  }
+};
+
 module.exports = {
   create,
+  addProductToCart,
 };
