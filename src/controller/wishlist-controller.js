@@ -82,7 +82,6 @@ const removeProductFromWishlist = async (req, res) => {
     });
   } catch (err) {
     console.log("Something went wrong in wishlist controller ");
-    console.log("controller", err);
     res.status(err.statusCode).json({
       success: false,
       message: err.message,

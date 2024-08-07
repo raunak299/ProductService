@@ -76,7 +76,7 @@ class WishListRepository extends CrudRepository {
         throw new Error("Wishlist does not exist for the user");
       }
 
-      const product = await Product.findByPk(userId);
+      const product = await Product.findByPk(productId);
       if (!product) {
         throw new Error("Product does not exist");
       }

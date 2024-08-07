@@ -56,10 +56,14 @@ class CrudRepository {
   async update(id, data) {
     try {
       const instance = await this.model.findByPk(id);
+      if (!instance) {
+        throw new Error(`Instance with id ${id} not found`);
+      }
       instance.set(data);
-      instance.save();
+      await instance.save();
       return instance;
     } catch (err) {
+      console.log(err);
       console.log("something went wrong in crud repository inside update");
       RepositoryLayerErrorHandler(
         err,
