@@ -57,7 +57,6 @@ const addProductsToWishlist = async (req, res) => {
     });
   } catch (err) {
     console.log("Something went wrong in wishlist controller");
-    console.log("controller", err);
     res.status(StatusCodes.BAD_GATEWAY).json({
       success: false,
       message: "Something went wrong .. unable to add product to wishlist",
