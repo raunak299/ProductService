@@ -1,6 +1,6 @@
 const { StatusCodes } = require("http-status-codes");
 const { Cart, Product } = require("../models/index");
-const { RepositoryError, ValidationError } = require("../utils/errors");
+const { RepositoryLayerErrorHandler } = require("../utils/errors");
 const CrudRepository = require("./crud-repository");
 
 class CartRepository extends CrudRepository {
@@ -33,10 +33,8 @@ class CartRepository extends CrudRepository {
       return instance;
     } catch (err) {
       console.log("Something went wrong in cart repository");
-      if (err.name === "SequelizeValidationError") {
-        throw new ValidationError(err);
-      }
-      throw new RepositoryError(
+      RepositoryLayerErrorHandler(
+        err,
         "Something went wrong, please try again later",
         err.message,
         StatusCodes.INTERNAL_SERVER_ERROR

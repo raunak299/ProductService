@@ -14,11 +14,11 @@ const get = async (req, res) => {
     });
   } catch (err) {
     console.log("Something went wrong in get controller");
-    return res.status(StatusCodes.BAD_GATEWAY).json({
+    return res.status(err.statusCode).json({
       success: false,
-      message: "Not able to get product",
+      message: err.message,
       data: {},
-      err: err.message,
+      err: err.explanation,
     });
   }
 };
@@ -34,11 +34,11 @@ const getAll = async (req, res) => {
     });
   } catch (err) {
     console.log("Something went wrong in get controller");
-    return res.status(StatusCodes.BAD_GATEWAY).json({
+    return res.status(err.statusCode).json({
       success: false,
-      message: "Not able to get products",
+      message: err.message,
       data: {},
-      err: err.message,
+      err: err.explanation,
     });
   }
 };

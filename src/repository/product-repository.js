@@ -1,6 +1,8 @@
 const { Op } = require("sequelize");
 const { Product } = require("../models/index");
 const CrudRepository = require("./crud-repository");
+const { StatusCodes } = require("http-status-codes");
+const { RepositoryLayerErrorHandler } = require("../utils/errors");
 
 class ProductRepository extends CrudRepository {
   constructor() {
@@ -57,9 +59,13 @@ class ProductRepository extends CrudRepository {
       });
       return instance;
     } catch (err) {
-      console.log(err);
       console.log("Something went wrong in product repository getAll");
-      throw err;
+      RepositoryLayerErrorHandler(
+        err,
+        "Something went wrong, please try again later",
+        err.message,
+        StatusCodes.INTERNAL_SERVER_ERROR
+      );
     }
   }
 }

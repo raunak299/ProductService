@@ -1,7 +1,7 @@
 const { default: axios } = require("axios");
 const { WishListRepository } = require("../repository");
 const CrudService = require("./crud-service");
-const { ServiceError } = require("../utils/errors");
+const { ServiceLayerErrorHandler } = require("../utils/errors");
 
 class WishListService extends CrudService {
   constructor() {
@@ -18,10 +18,8 @@ class WishListService extends CrudService {
       return response;
     } catch (err) {
       console.log("Something went wrong in wishlist service");
-      if (err.name === "RepositoryError" || err.name === "ValidationError") {
-        throw err;
-      }
-      throw new ServiceError(
+      ServiceLayerErrorHandler(
+        err,
         "Something went wrong, please try again later",
         err.message
       );
@@ -37,18 +35,15 @@ class WishListService extends CrudService {
       return response;
     } catch (err) {
       console.log("Something went wrong in wishlist service");
-      if (err.name === "RepositoryError" || err.name === "ValidationError") {
-        throw err;
-      }
-      throw new ServiceError(
+      ServiceLayerErrorHandler(
+        err,
         "Something went wrong, please try again later",
         err.message
       );
     }
   }
 
-  async getAllProductsFromWishlist(data) {
-    const { userId } = data;
+  async getAllProductsFromWishlist(userId) {
     try {
       const response = await axios.get(
         `http://localhost:3001/api/v1/user/${userId}`
@@ -56,16 +51,13 @@ class WishListService extends CrudService {
       const user = response.data.data;
       if (!user) throw new Error("user does not exist");
       const result = await this.wishlistRepository.getAllProductsFromWishlist(
-        data
+        user.id
       );
       return result;
     } catch (err) {
       console.log("Something went wrong in wishlist service");
-      if (err.name === "RepositoryError" || err.name === "ValidationError") {
-        throw err;
-      }
-
-      throw new ServiceError(
+      ServiceLayerErrorHandler(
+        err,
         "Something went wrong, please try again later",
         err.message
       );

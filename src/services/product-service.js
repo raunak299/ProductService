@@ -1,6 +1,7 @@
 const CrudService = require("./crud-service");
 const {} = require("../models/");
 const { ProductRepository } = require("../repository");
+const { ServiceLayerErrorHandler } = require("../utils/errors");
 
 class ProductService extends CrudService {
   constructor() {
@@ -14,7 +15,11 @@ class ProductService extends CrudService {
       return result;
     } catch (err) {
       console.log("Something went wrong in product service");
-      throw err;
+      ServiceLayerErrorHandler(
+        err,
+        "Something went wrong, please try again later",
+        err.message
+      );
     }
   }
 }

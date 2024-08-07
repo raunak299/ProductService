@@ -1,5 +1,5 @@
 const { StatusCodes } = require("http-status-codes");
-const { RepositoryError, ValidationError } = require("../utils/errors");
+const { RepositoryLayerErrorHandler } = require("../utils/errors");
 
 class CrudRepository {
   constructor(model) {
@@ -12,10 +12,7 @@ class CrudRepository {
       return instance;
     } catch (err) {
       console.log("something went wrong in crud repository inside create");
-      if (err.name === "SequelizeValidationError") {
-        throw new ValidationError(err);
-      }
-      throw new RepositoryError(
+      RepositoryLayerErrorHandler(
         "Something went wrong, please try again later",
         err.message,
         StatusCodes.INTERNAL_SERVER_ERROR
@@ -26,13 +23,14 @@ class CrudRepository {
   async get(id) {
     try {
       const instance = await this.model.findByPk(id);
+      if (!instance) {
+        throw new Error("product does not exist");
+      }
       return instance;
     } catch (err) {
       console.log("something went wrong in crud repository inside get");
-      if (err.name === "SequelizeValidationError") {
-        throw new ValidationError(err);
-      }
-      throw new RepositoryError(
+      RepositoryLayerErrorHandler(
+        err,
         "Something went wrong, please try again later",
         err.message,
         StatusCodes.INTERNAL_SERVER_ERROR
@@ -46,10 +44,8 @@ class CrudRepository {
       return instances;
     } catch (err) {
       console.log("something went wrong in crud repository inside getAll");
-      if (err.name === "SequelizeValidationError") {
-        throw new ValidationError(err);
-      }
-      throw new RepositoryError(
+      RepositoryLayerErrorHandler(
+        err,
         "Something went wrong, please try again later",
         err.message,
         StatusCodes.INTERNAL_SERVER_ERROR
@@ -65,10 +61,8 @@ class CrudRepository {
       return instance;
     } catch (err) {
       console.log("something went wrong in crud repository inside update");
-      if (err.name === "SequelizeValidationError") {
-        throw new ValidationError(err);
-      }
-      throw new RepositoryError(
+      RepositoryLayerErrorHandler(
+        err,
         "Something went wrong, please try again later",
         err.message,
         StatusCodes.INTERNAL_SERVER_ERROR
@@ -84,10 +78,8 @@ class CrudRepository {
       return true;
     } catch (err) {
       console.log("something went wrong in crud repository inside destroy");
-      if (err.name === "SequelizeValidationError") {
-        throw new ValidationError(err);
-      }
-      throw new RepositoryError(
+      RepositoryLayerErrorHandler(
+        err,
         "Something went wrong, please try again later",
         err.message,
         StatusCodes.INTERNAL_SERVER_ERROR

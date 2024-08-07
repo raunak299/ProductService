@@ -1,4 +1,4 @@
-const { ServiceError } = require("../utils/errors");
+const { ServiceLayerErrorHandler } = require("../utils/errors");
 
 class CrudService {
   constructor(repository) {
@@ -11,10 +11,8 @@ class CrudService {
       return result;
     } catch (err) {
       console.log("Something went wrong in crud service");
-      if (err.name === "RepositoryError" || err.name === "ValidationError") {
-        throw err;
-      }
-      throw new ServiceError(
+      ServiceLayerErrorHandler(
+        err,
         "Something went wrong, please try again later",
         err.message
       );
@@ -27,10 +25,8 @@ class CrudService {
       return result;
     } catch (err) {
       console.log("Something went wrong in crud service");
-      if (err.name === "RepositoryError" || err.name === "ValidationError") {
-        throw err;
-      }
-      throw new ServiceError(
+      ServiceLayerErrorHandler(
+        err,
         "Something went wrong, please try again later",
         err.message
       );
@@ -43,10 +39,8 @@ class CrudService {
       return result;
     } catch (err) {
       console.log("Something went wrong in crud service");
-      if (err.name === "RepositoryError" || err.name === "ValidationError") {
-        throw err;
-      }
-      throw new ServiceError(
+      ServiceLayerErrorHandler(
+        err,
         "Something went wrong, please try again later",
         err.message
       );
@@ -59,10 +53,8 @@ class CrudService {
       return result;
     } catch (err) {
       console.log("Something went wrong in crud service");
-      if (err.name === "RepositoryError" || err.name === "ValidationError") {
-        throw err;
-      }
-      throw new ServiceError(
+      ServiceLayerErrorHandler(
+        err,
         "Something went wrong, please try again later",
         err.message
       );
@@ -75,10 +67,8 @@ class CrudService {
       return result;
     } catch (err) {
       console.log("Something went wrong in crud service");
-      if (err.name === "RepositoryError" || err.name === "ValidationError") {
-        throw err;
-      }
-      throw new ServiceError(
+      ServiceLayerErrorHandler(
+        err,
         "Something went wrong, please try again later",
         err.message
       );
