@@ -1,4 +1,5 @@
 const { CartRepository } = require("../repository");
+const { ServiceError } = require("../utils/errors");
 const CrudService = require("./crud-service");
 
 class CartService extends CrudService {
@@ -14,7 +15,13 @@ class CartService extends CrudService {
       return response;
     } catch (err) {
       console.log("Something went wrong in cart service");
-      throw err;
+      if (err.name === "RepositoryError" || err.name === "ValidationError") {
+        throw err;
+      }
+      throw new ServiceError(
+        "Something went wrong, please try again later",
+        err.message
+      );
     }
   }
 }

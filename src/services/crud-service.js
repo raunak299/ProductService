@@ -1,3 +1,5 @@
+const { ServiceError } = require("../utils/errors");
+
 class CrudService {
   constructor(repository) {
     this.crudRepository = repository;
@@ -9,7 +11,13 @@ class CrudService {
       return result;
     } catch (err) {
       console.log("Something went wrong in crud service");
-      throw err;
+      if (err.name === "RepositoryError" || err.name === "ValidationError") {
+        throw err;
+      }
+      throw new ServiceError(
+        "Something went wrong, please try again later",
+        err.message
+      );
     }
   }
 
@@ -19,7 +27,13 @@ class CrudService {
       return result;
     } catch (err) {
       console.log("Something went wrong in crud service");
-      throw err;
+      if (err.name === "RepositoryError" || err.name === "ValidationError") {
+        throw err;
+      }
+      throw new ServiceError(
+        "Something went wrong, please try again later",
+        err.message
+      );
     }
   }
 
@@ -29,7 +43,13 @@ class CrudService {
       return result;
     } catch (err) {
       console.log("Something went wrong in crud service");
-      throw err;
+      if (err.name === "RepositoryError" || err.name === "ValidationError") {
+        throw err;
+      }
+      throw new ServiceError(
+        "Something went wrong, please try again later",
+        err.message
+      );
     }
   }
 
@@ -39,7 +59,13 @@ class CrudService {
       return result;
     } catch (err) {
       console.log("Something went wrong in crud service");
-      throw err;
+      if (err.name === "RepositoryError" || err.name === "ValidationError") {
+        throw err;
+      }
+      throw new ServiceError(
+        "Something went wrong, please try again later",
+        err.message
+      );
     }
   }
 
@@ -49,7 +75,13 @@ class CrudService {
       return result;
     } catch (err) {
       console.log("Something went wrong in crud service");
-      throw err;
+      if (err.name === "RepositoryError" || err.name === "ValidationError") {
+        throw err;
+      }
+      throw new ServiceError(
+        "Something went wrong, please try again later",
+        err.message
+      );
     }
   }
 }

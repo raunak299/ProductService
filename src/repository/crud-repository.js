@@ -1,3 +1,6 @@
+const { StatusCodes } = require("http-status-codes");
+const { RepositoryError, ValidationError } = require("../utils/errors");
+
 class CrudRepository {
   constructor(model) {
     this.model = model;
@@ -8,9 +11,15 @@ class CrudRepository {
       const instance = await this.model.create(data);
       return instance;
     } catch (err) {
-      console.log(err);
       console.log("something went wrong in crud repository inside create");
-      throw err;
+      if (err.name === "SequelizeValidationError") {
+        throw new ValidationError(err);
+      }
+      throw new RepositoryError(
+        "Something went wrong, please try again later",
+        err.message,
+        StatusCodes.INTERNAL_SERVER_ERROR
+      );
     }
   }
 
@@ -20,7 +29,14 @@ class CrudRepository {
       return instance;
     } catch (err) {
       console.log("something went wrong in crud repository inside get");
-      throw err;
+      if (err.name === "SequelizeValidationError") {
+        throw new ValidationError(err);
+      }
+      throw new RepositoryError(
+        "Something went wrong, please try again later",
+        err.message,
+        StatusCodes.INTERNAL_SERVER_ERROR
+      );
     }
   }
 
@@ -29,9 +45,15 @@ class CrudRepository {
       const instances = await this.model.findAll();
       return instances;
     } catch (err) {
-      console.log(err);
       console.log("something went wrong in crud repository inside getAll");
-      throw err;
+      if (err.name === "SequelizeValidationError") {
+        throw new ValidationError(err);
+      }
+      throw new RepositoryError(
+        "Something went wrong, please try again later",
+        err.message,
+        StatusCodes.INTERNAL_SERVER_ERROR
+      );
     }
   }
 
@@ -43,7 +65,14 @@ class CrudRepository {
       return instance;
     } catch (err) {
       console.log("something went wrong in crud repository inside update");
-      throw err;
+      if (err.name === "SequelizeValidationError") {
+        throw new ValidationError(err);
+      }
+      throw new RepositoryError(
+        "Something went wrong, please try again later",
+        err.message,
+        StatusCodes.INTERNAL_SERVER_ERROR
+      );
     }
   }
 
@@ -55,7 +84,14 @@ class CrudRepository {
       return true;
     } catch (err) {
       console.log("something went wrong in crud repository inside destroy");
-      throw err;
+      if (err.name === "SequelizeValidationError") {
+        throw new ValidationError(err);
+      }
+      throw new RepositoryError(
+        "Something went wrong, please try again later",
+        err.message,
+        StatusCodes.INTERNAL_SERVER_ERROR
+      );
     }
   }
 }

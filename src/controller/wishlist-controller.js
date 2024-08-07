@@ -36,11 +36,11 @@ const getAllProductsFromWishlist = async (req, res) => {
     });
   } catch (err) {
     console.log("Something went wrong in wishlist controller ");
-    res.status(StatusCodes.BAD_GATEWAY).json({
+    res.status(err.statusCode).json({
       success: false,
-      message: "Something went wrong .. unable to get wishlist products",
+      message: err.message,
       data: {},
-      err: err.message,
+      err: err.explanation,
     });
   }
 };
@@ -57,11 +57,11 @@ const addProductsToWishlist = async (req, res) => {
     });
   } catch (err) {
     console.log("Something went wrong in wishlist controller");
-    res.status(StatusCodes.BAD_GATEWAY).json({
+    res.status(err.statusCode).json({
       success: false,
-      message: "Something went wrong .. unable to add product to wishlist",
+      message: err.message,
+      err: err.explanation,
       data: {},
-      err: err.message,
     });
   }
 };
@@ -83,11 +83,11 @@ const removeProductFromWishlist = async (req, res) => {
   } catch (err) {
     console.log("Something went wrong in wishlist controller ");
     console.log("controller", err);
-    res.status(StatusCodes.BAD_GATEWAY).json({
+    res.status(err.statusCode).json({
       success: false,
-      message: "Something went wrong .. unable to add product to wishlist",
+      message: err.message,
       data: {},
-      err: err.message,
+      err: err.explanation,
     });
   }
 };

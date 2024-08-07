@@ -1,4 +1,10 @@
+const { StatusCodes } = require("http-status-codes");
 const { Wishlist, Product } = require("../models/index");
+const {
+  AppError,
+  ValidationError,
+  RepositoryError,
+} = require("../utils/errors");
 const CrudRepository = require("./crud-repository");
 
 class WishListRepository extends CrudRepository {
@@ -28,7 +34,14 @@ class WishListRepository extends CrudRepository {
       return instance;
     } catch (err) {
       console.log("Something went wrong in wishlist repository");
-      throw err;
+      if (err.name === "SequelizeValidationError") {
+        throw new ValidationError(err);
+      }
+      throw new RepositoryError(
+        "Something went wrong, please try again later",
+        err.message,
+        StatusCodes.INTERNAL_SERVER_ERROR
+      );
     }
   }
 
@@ -49,7 +62,14 @@ class WishListRepository extends CrudRepository {
       return products;
     } catch (err) {
       console.log("Something went wrong in wishlist repository");
-      throw err;
+      if (err.name === "SequelizeValidationError") {
+        throw new ValidationError(err);
+      }
+      throw new RepositoryError(
+        "Something went wrong, please try again later",
+        err.message,
+        StatusCodes.INTERNAL_SERVER_ERROR
+      );
     }
   }
 
@@ -73,7 +93,14 @@ class WishListRepository extends CrudRepository {
       return true;
     } catch (err) {
       console.log("Something went wrong in wishlist repository");
-      throw err;
+      if (err.name === "SequelizeValidationError") {
+        throw new ValidationError(err);
+      }
+      throw new RepositoryError(
+        "Something went wrong, please try again later",
+        err.message,
+        StatusCodes.INTERNAL_SERVER_ERROR
+      );
     }
   }
 }

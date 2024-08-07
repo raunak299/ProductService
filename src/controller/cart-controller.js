@@ -36,11 +36,11 @@ const addProductToCart = async (req, res) => {
     });
   } catch (err) {
     console.log("Something went wrong in cart controller");
-    res.status(StatusCodes.BAD_GATEWAY).json({
+    res.status(err.statusCode).json({
       success: false,
-      message: "Something went wrong .. unable to add product to cart",
+      message: err.message,
       data: {},
-      err: err.message,
+      err: err.explanation,
     });
   }
 };

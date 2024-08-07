@@ -1,6 +1,7 @@
 const { default: axios } = require("axios");
 const { WishListRepository } = require("../repository");
 const CrudService = require("./crud-service");
+const { ServiceError } = require("../utils/errors");
 
 class WishListService extends CrudService {
   constructor() {
@@ -17,7 +18,13 @@ class WishListService extends CrudService {
       return response;
     } catch (err) {
       console.log("Something went wrong in wishlist service");
-      throw err;
+      if (err.name === "RepositoryError" || err.name === "ValidationError") {
+        throw err;
+      }
+      throw new ServiceError(
+        "Something went wrong, please try again later",
+        err.message
+      );
     }
   }
 
@@ -30,7 +37,13 @@ class WishListService extends CrudService {
       return response;
     } catch (err) {
       console.log("Something went wrong in wishlist service");
-      throw err;
+      if (err.name === "RepositoryError" || err.name === "ValidationError") {
+        throw err;
+      }
+      throw new ServiceError(
+        "Something went wrong, please try again later",
+        err.message
+      );
     }
   }
 
@@ -40,7 +53,7 @@ class WishListService extends CrudService {
       const response = await axios.get(
         `http://localhost:3001/api/v1/user/${userId}`
       );
-      const user = response.data;
+      const user = response.data.data;
       if (!user) throw new Error("user does not exist");
       const result = await this.wishlistRepository.getAllProductsFromWishlist(
         data
@@ -48,7 +61,14 @@ class WishListService extends CrudService {
       return result;
     } catch (err) {
       console.log("Something went wrong in wishlist service");
-      throw err;
+      if (err.name === "RepositoryError" || err.name === "ValidationError") {
+        throw err;
+      }
+
+      throw new ServiceError(
+        "Something went wrong, please try again later",
+        err.message
+      );
     }
   }
 }
