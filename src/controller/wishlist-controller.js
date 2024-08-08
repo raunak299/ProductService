@@ -5,7 +5,7 @@ const wishListService = new WishListService();
 
 const create = async (req, res) => {
   try {
-    const payload = req.body;
+    const payload = { userId: req.body.userId };
     const response = await wishListService.create(payload);
     return res.status(StatusCodes.OK).json({
       success: true,
@@ -47,7 +47,7 @@ const getAllProductsFromWishlist = async (req, res) => {
 
 const addProductsToWishlist = async (req, res) => {
   try {
-    const payload = req.body;
+    const payload = { userId: req.body.userId, productId: req.body.productId };
     const response = await wishListService.addProductsToWishlist(payload);
     return res.status(StatusCodes.OK).json({
       success: true,

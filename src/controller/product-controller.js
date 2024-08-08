@@ -5,7 +5,8 @@ const productService = new ProductService();
 
 const get = async (req, res) => {
   try {
-    const response = await productService.get(req.params.id);
+    const productId = req.params.id;
+    const response = await productService.get(productId);
     return res.status(StatusCodes.OK).json({
       success: true,
       message: "Successfully fetched product",
@@ -25,7 +26,25 @@ const get = async (req, res) => {
 
 const getAll = async (req, res) => {
   try {
-    const response = await productService.getAll(req.query);
+    const {
+      size,
+      category,
+      rating,
+      maxPrice,
+      minPrice,
+      sortField,
+      sortDirection,
+    } = req.query;
+    const data = {
+      size,
+      category,
+      rating,
+      maxPrice,
+      minPrice,
+      sortField,
+      sortDirection,
+    };
+    const response = await productService.getAll(data);
     return res.status(StatusCodes.OK).json({
       success: true,
       message: "Successfully fetched all products",

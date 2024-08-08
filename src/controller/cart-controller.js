@@ -26,7 +26,11 @@ const create = async (req, res) => {
 
 const addProductToCart = async (req, res) => {
   try {
-    const payload = req.body;
+    const payload = {
+      userId: req.body.userId,
+      productId: req.body.productId,
+      quantity: req.body.quantity,
+    };
     const response = await cartService.addProductToCart(payload);
     return res.status(StatusCodes.OK).json({
       success: true,
