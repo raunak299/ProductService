@@ -1,5 +1,6 @@
 "use strict";
 const { Model } = require("sequelize");
+
 module.exports = (sequelize, DataTypes) => {
   class Order extends Model {
     /**
@@ -8,9 +9,13 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
+      // Define association here
+      this.hasMany(models.OrderItem, {
+        foreignKey: "orderId",
+      });
     }
   }
+
   Order.init(
     {
       userId: {
@@ -23,26 +28,26 @@ module.exports = (sequelize, DataTypes) => {
       },
       name: {
         type: DataTypes.STRING,
-        allowNUll: false,
+        allowNull: false,
       },
       mobileNumber: {
         type: DataTypes.STRING,
-        allowNUll: false,
+        allowNull: false, // Corrected from `all` to `allowNull`
       },
       alternateMobileNumber: {
         type: DataTypes.STRING,
       },
       city: {
         type: DataTypes.STRING,
-        allowNUll: false,
+        allowNull: false,
       },
       state: {
         type: DataTypes.STRING,
-        allowNUll: false,
+        allowNull: false,
       },
       pinCode: {
         type: DataTypes.STRING,
-        allowNUll: false,
+        allowNull: false,
       },
       addressDetail: {
         type: DataTypes.STRING,
@@ -51,23 +56,21 @@ module.exports = (sequelize, DataTypes) => {
     {
       sequelize,
       modelName: "Order",
-    },
-    {
       getterMethods: {
         addressObject() {
           return {
             name: this.name,
             mobileNumber: this.mobileNumber,
             alternateMobileNumber: this.alternateMobileNumber,
-            address: this.address,
             city: this.city,
             state: this.state,
             pinCode: this.pinCode,
-            details: this.details,
+            addressDetail: this.addressDetail,
           };
         },
       },
     }
   );
+
   return Order;
 };
