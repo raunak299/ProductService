@@ -10,13 +10,13 @@ module.exports = {
         type: Sequelize.INTEGER,
       },
       orderId: {
-        type: Sequelize.STRING,
+        type: Sequelize.INTEGER,
         allowNull: false,
         onDelete: "CASCADE",
         references: {
           model: "Order",
           key: "id",
-          as: "productId",
+          as: "orderId",
         },
       },
       productId: {

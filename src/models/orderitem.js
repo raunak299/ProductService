@@ -10,15 +10,15 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       this.belongsTo(models.Order, {
-        through: "orderId",
         onDelete: "CASCADE",
+        foreignKey: "orderId",
       });
     }
   }
   OrderItem.init(
     {
-      orderId: { type: DataTypes.STRING, allowNull: false },
       productId: { type: DataTypes.STRING, allowNull: false },
+      orderId: { type: DataTypes.INTEGER, allowNull: false },
       quantity: { type: DataTypes.STRING, allowNull: false },
     },
     {

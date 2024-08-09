@@ -34,6 +34,32 @@ class CartRepository extends CrudRepository {
     }
   }
 
+  async getAllProductsFromCart(userId) {
+    try {
+      const products = await Cart.findOne({
+        where: {
+          userId,
+        },
+        attributes: ["totalAmount"],
+        include: {
+          model: Product,
+          through: {
+            attributes: ["quantity"], // Exclude the join table attributes
+          },
+        },
+      });
+      return products ?? [];
+    } catch (err) {
+      console.log("Something went wrong in cart repository");
+      RepositoryLayerErrorHandler(
+        err,
+        "Something went wrong, please try again later",
+        err.message,
+        StatusCodes.INTERNAL_SERVER_ERROR
+      );
+    }
+  }
+
   async addProductToCart(data) {
     const { userId, productId, quantity } = data;
 
@@ -111,21 +137,21 @@ class CartRepository extends CrudRepository {
     }
   }
 
-  async getAllProductsFromCart(userId) {
+  async removeAllProductFromCart(userId) {
     try {
-      const products = await Cart.findOne({
+      const cart = await Cart.findOne({
         where: {
-          userId,
-        },
-        attributes: ["totalAmount"],
-        include: {
-          model: Product,
-          through: {
-            attributes: ["quantity"], // Exclude the join table attributes
-          },
+          userId: userId,
         },
       });
-      return products;
+      if (!cart) {
+        throw new Error("Cart does not exist for the user");
+      }
+
+      await cart.setProducts([]);
+      cart.totalAmount = 0;
+      await cart.save();
+      return true;
     } catch (err) {
       console.log("Something went wrong in cart repository");
       RepositoryLayerErrorHandler(

@@ -1,7 +1,11 @@
 const express = require("express");
-const { WishlistController } = require("../../../controller");
+const { WishlistController, OrderController } = require("../../../controller");
 const { CartController } = require("../../../controller");
-const { wishlistMiddleware, cartMiddleware } = require("../../../middlewares");
+const {
+  wishlistMiddleware,
+  cartMiddleware,
+  orderMiddleware,
+} = require("../../../middlewares");
 const router = express.Router();
 
 router.post(
@@ -34,6 +38,17 @@ router.get(
   "/cart",
   cartMiddleware.getAllProductsFromCart,
   CartController.getAllProductsFromCart
+);
+
+router.post(
+  "/order",
+  orderMiddleware.createOrderValidator,
+  OrderController.createOrder
+);
+router.get(
+  "/order",
+  orderMiddleware.getOrdersValidator,
+  OrderController.getOrders
 );
 
 module.exports = router;

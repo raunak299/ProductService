@@ -54,6 +54,7 @@ class CartService extends CrudService {
       const result = await this.cartRepository.getAllProductsFromCart(user.id);
       return result;
     } catch (err) {
+      console.log(err);
       console.log("Something went wrong in cart service");
       ServiceLayerErrorHandler(
         err,

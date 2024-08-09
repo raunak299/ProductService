@@ -14,6 +14,18 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: "orderId",
       });
     }
+
+    get addressObject() {
+      return {
+        name: this.name,
+        mobileNumber: this.mobileNumber,
+        alternateMobileNumber: this.alternateMobileNumber,
+        city: this.city,
+        state: this.state,
+        pinCode: this.pinCode,
+        addressDetail: this.addressDetail,
+      };
+    }
   }
 
   Order.init(
@@ -56,19 +68,6 @@ module.exports = (sequelize, DataTypes) => {
     {
       sequelize,
       modelName: "Order",
-      getterMethods: {
-        addressObject() {
-          return {
-            name: this.name,
-            mobileNumber: this.mobileNumber,
-            alternateMobileNumber: this.alternateMobileNumber,
-            city: this.city,
-            state: this.state,
-            pinCode: this.pinCode,
-            addressDetail: this.addressDetail,
-          };
-        },
-      },
     }
   );
 
