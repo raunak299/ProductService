@@ -8,6 +8,25 @@ class WishListRepository extends CrudRepository {
     super(Wishlist);
   }
 
+  async destroyWishlist(userId) {
+    try {
+      const wishlist = Wishlist.findOne({
+        where: {
+          userId,
+        },
+      });
+      return await this.destroy(wishlist.id);
+    } catch (err) {
+      console.log("Something went wrong in wishlist repository");
+      RepositoryLayerErrorHandler(
+        err,
+        "Something went wrong, please try again later",
+        err.message,
+        StatusCodes.INTERNAL_SERVER_ERROR
+      );
+    }
+  }
+
   async addProductsToWishlist(data) {
     const { userId, productId } = data;
 

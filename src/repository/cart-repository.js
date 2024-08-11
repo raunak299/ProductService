@@ -8,6 +8,25 @@ class CartRepository extends CrudRepository {
     super(Cart);
   }
 
+  async destroyCart(userId) {
+    try {
+      const cart = Cart.findOne({
+        where: {
+          userId,
+        },
+      });
+      return await super.destroy(cart.id);
+    } catch (err) {
+      console.log("Something went wrong in cart repository");
+      RepositoryLayerErrorHandler(
+        err,
+        "Something went wrong, please try again later",
+        err.message,
+        StatusCodes.INTERNAL_SERVER_ERROR
+      );
+    }
+  }
+
   async updateCartTotalAmount(userId) {
     try {
       const cart = await Cart.findOne({

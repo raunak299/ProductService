@@ -10,6 +10,20 @@ class CartService extends CrudService {
     this.cartRepository = cartRepository;
   }
 
+  async destroyCart(data) {
+    try {
+      const response = await this.cartRepository.delete(data);
+      return response;
+    } catch (err) {
+      console.log("Something went wrong in cart service");
+      ServiceLayerErrorHandler(
+        err,
+        "Something went wrong, please try again later",
+        err.message
+      );
+    }
+  }
+
   async addProductToCart(data) {
     const { userId } = data;
     try {

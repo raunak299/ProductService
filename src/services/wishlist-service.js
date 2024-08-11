@@ -10,6 +10,19 @@ class WishListService extends CrudService {
     this.wishlistRepository = wishlistRepository;
   }
 
+  async destroyWishlist(userId) {
+    try {
+      return await this.wishlistRepository.destroyWishlist(userId);
+    } catch (err) {
+      console.log("Something went wrong in wishlist service");
+      ServiceLayerErrorHandler(
+        err,
+        "Something went wrong, please try again later",
+        err.message
+      );
+    }
+  }
+
   async addProductsToWishlist(data) {
     try {
       const response = await this.wishlistRepository.addProductsToWishlist(
